@@ -27,7 +27,7 @@ Summary: Utilities from the general purpose cryptography library with TLS implem
 Name: %{name}
 Version: 1.0.1e
 # Do not forget to bump SHLIB_VERSION on version upgrades
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # We have to remove certain patented algorithms from the openssl source
 # tarball with the hobble-openssl script which is included below.
 # The original openssl upstream tarball cannot be shipped in the .src.rpm.
@@ -84,6 +84,7 @@ BuildRequires: /usr/bin/rename
 Requires: coreutils, make
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 Provides: %{real_name} = %{version}-%{release}
+Provides: %{real_name}%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name} < %{basever}
 
 %description
@@ -96,6 +97,7 @@ protocols.
 Summary: A general purpose cryptography library with TLS implementation
 Group: System Environment/Libraries
 Provides: %{real_name}-libs = %{version}-%{release}
+Provides: %{real_name}-libs%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-libs < %{basever}
 Requires: ca-certificates >= 2008-5
 # Needed obsoletes due to the base/lib subpackage split
@@ -110,6 +112,7 @@ support cryptographic algorithms and protocols.
 Summary: Files for development of applications which will use OpenSSL
 Group: Development/Libraries
 Provides: %{real_name}-devel = %{version}-%{release}
+Provides: %{real_name}-devel%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-devel < %{basever}
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 Requires: krb5-devel%{?_isa}, zlib-devel%{?_isa}
@@ -124,6 +127,7 @@ support various cryptographic algorithms and protocols.
 Summary:  Libraries for static linking of applications which will use OpenSSL
 Group: Development/Libraries
 Provides: %{real_name}-static = %{version}-%{release}
+Provides: %{real_name}-static%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-static < %{basever}
 Requires: %{name}-devel%{?_isa} = %{version}-%{release}
 
@@ -138,6 +142,7 @@ Summary: Perl scripts provided with OpenSSL
 Group: Applications/Internet
 Requires: perl
 Provides: %{real_name}-perl = %{version}-%{release}
+Provides: %{real_name}-perl%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-perl < %{basever}
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
@@ -440,6 +445,9 @@ install -m644 %{SOURCE9} \
 %postun libs -p /sbin/ldconfig
 
 %changelog
+* Wed Oct 16 2013 Ben Harper <ben.harper@rackspace.com> - 1:1.0.1e-2.ius
+- adding architecture-specific provides
+
 * Mon Jan 08 2013 Jeffrey Ness <jeffrey.ness@rackspace.com> - 1:1.0.1e-1.ius
 - Removing fips patches, now built in.
 - Resoves CVE-2013-1069
